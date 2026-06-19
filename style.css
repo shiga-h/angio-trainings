@@ -1,0 +1,310 @@
+:root {
+  --bg: #f6f7f9;
+  --card-bg: #ffffff;
+  --text: #1c1e21;
+  --text-muted: #5b6470;
+  --border: #e3e6ea;
+  --accent: #1f6feb;
+  --accent-bg: #e8f0fe;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.03);
+  --radius: 10px;
+  --tap-min: 40px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic UI",
+               "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* ── ヘッダー ─────────────────────────── */
+.site-header {
+  padding: 16px 16px 8px;
+}
+.site-header h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.subtitle {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ── フィルタ ─────────────────────────── */
+.filters {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg);
+  padding: 8px 16px 12px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  color: var(--text);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  min-height: var(--tap-min);
+}
+#searchInput:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.filter-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.filter-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  background: var(--card-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  user-select: none;
+  min-height: 32px;
+}
+.chip:active { transform: scale(0.97); }
+.chip.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.toggle-row {
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  min-height: var(--tap-min);
+}
+.toggle input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+.reset-btn {
+  padding: 6px 12px;
+  font-size: 13px;
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  min-height: var(--tap-min);
+  font-family: inherit;
+}
+.reset-btn:active {
+  background: var(--accent-bg);
+}
+
+/* ── カードリスト ─────────────────────── */
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 16px 24px;
+}
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.card.past {
+  opacity: 0.55;
+}
+.card-date {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+.card-time {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-left: 8px;
+  font-weight: 400;
+}
+.card-name {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 0;
+}
+.card-theme {
+  font-size: 14px;
+  color: var(--text);
+  margin: 0;
+}
+.card-loc {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.card-loc::before {
+  content: "📍 ";
+}
+.card-fee {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.card-fee::before {
+  content: "💴 ";
+}
+
+.badge-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  align-items: center;
+}
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 4px;
+  background: #eef1f5;
+  color: #3a4250;
+}
+.badge.tag { background: #eef1f5; color: #3a4250; }
+
+.badge.fmt-web        { background: #e1ecff; color: #1f4f9e; }
+.badge.fmt-genchi     { background: #e3f5e3; color: #2d6a31; }
+.badge.fmt-hybrid     { background: #f2e6ff; color: #6a3a9a; }
+.badge.fmt-ondemand   { background: #fff2d6; color: #875a13; }
+.badge.fmt-undecided  { background: #f0f0f0; color: #555; }
+
+details.points {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+details.points > summary {
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  display: inline-block;
+  padding: 4px 0;
+}
+details.points > summary::-webkit-details-marker { display: none; }
+details.points > summary::before {
+  content: "▸ ";
+  font-size: 11px;
+  transition: transform 0.15s;
+  display: inline-block;
+}
+details.points[open] > summary::before {
+  transform: rotate(90deg);
+}
+details.points .points-body {
+  margin-top: 4px;
+  padding: 8px 10px;
+  background: #f9fafb;
+  border-radius: 6px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.card-link {
+  display: inline-block;
+  margin-top: 2px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border-radius: 6px;
+  text-decoration: none;
+  align-self: flex-start;
+  min-height: var(--tap-min);
+  line-height: calc(var(--tap-min) - 18px);
+}
+.card-link:active {
+  background: #1858bf;
+}
+
+/* ── 空状態 ────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 40px 16px;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* ── フッター ─────────────────────────── */
+.site-footer {
+  padding: 16px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.site-footer p { margin: 0; }
+
+@media (min-width: 600px) {
+  .site-header h1 { font-size: 20px; }
+  .card-name { font-size: 17px; }
+}

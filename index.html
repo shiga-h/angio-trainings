@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f6feb">
+<title>アンギオ部門 研修会・学会一覧</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <h1>アンギオ部門 研修会・学会</h1>
+  <p class="subtitle"><span id="resultCount">—</span>件表示</p>
+</header>
+
+<section class="filters">
+  <div class="filter-row">
+    <input type="search" id="searchInput" placeholder="名称・テーマで検索…" autocomplete="off" enterkeyhint="search">
+  </div>
+
+  <div class="filter-block">
+    <div class="filter-label">月</div>
+    <div class="chip-group" id="monthChips"></div>
+  </div>
+
+  <div class="filter-block">
+    <div class="filter-label">タグ（複数選択可）</div>
+    <div class="chip-group" id="tagChips"></div>
+  </div>
+
+  <div class="filter-row toggle-row">
+    <label class="toggle">
+      <input type="checkbox" id="showPastToggle">
+      <span>過去の研究会も表示</span>
+    </label>
+    <button type="button" id="resetBtn" class="reset-btn">条件をリセット</button>
+  </div>
+</section>
+
+<main id="list" class="card-list" aria-live="polite"></main>
+
+<p id="emptyState" class="empty-state" hidden>条件に合う研究会がありません。</p>
+
+<footer class="site-footer">
+  <p>データソース: 2026年度研修会_統合版.xlsx</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
