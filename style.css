@@ -69,8 +69,15 @@ body {
   gap: 8px;
 }
 
+.search-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
 #searchInput {
-  width: 100%;
+  flex: 1 1 200px;
+  min-width: 0;
   padding: 10px 12px;
   font-size: 16px;
   border: 1px solid var(--border);
@@ -85,6 +92,63 @@ body {
 #searchInput:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.filter-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  background: var(--card-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  min-height: var(--tap-min);
+  white-space: nowrap;
+}
+.filter-toggle:active {
+  background: var(--accent-bg);
+}
+.filter-toggle[aria-expanded="true"] {
+  background: var(--accent-bg);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.filter-toggle-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  font-size: 11px;
+  line-height: 1;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 999px;
+}
+.filter-toggle-chevron {
+  display: inline-block;
+  font-size: 10px;
+  transition: transform 0.18s ease;
+}
+.filter-toggle[aria-expanded="true"] .filter-toggle-chevron {
+  transform: rotate(180deg);
+}
+
+.filter-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: filter-slide-down 0.18s ease;
+}
+@keyframes filter-slide-down {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .filter-block {
@@ -285,6 +349,59 @@ details.points .points-body {
 }
 .card-link:active {
   background: #1858bf;
+}
+
+.copy-name-btn {
+  margin-top: 2px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--accent);
+  background: var(--card-bg);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  cursor: pointer;
+  align-self: flex-start;
+  min-height: var(--tap-min);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.copy-name-btn:active {
+  background: var(--accent-bg);
+}
+.copy-name-btn.copied {
+  color: #2d6a31;
+  border-color: #2d6a31;
+  background: #e3f5e3;
+}
+.copy-name-btn-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* ── トースト ─────────────────────────── */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(24px + env(safe-area-inset-bottom));
+  transform: translateX(-50%) translateY(20px);
+  padding: 10px 16px;
+  background: rgba(28, 30, 33, 0.92);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 100;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 /* ── 空状態 ────────────────────────────── */

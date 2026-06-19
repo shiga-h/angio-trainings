@@ -144,6 +144,72 @@
       updateChipActiveStates();
       render();
     });
+
+    // フィルタ詳細の開閉
+    document.getElementById("filterToggleBtn").addEventListener("click", () => {
+      const btn = document.getElementById("filterToggleBtn");
+      const details = document.getElementById("filterDetails");
+      const expanded = btn.getAttribute("aria-expanded") === "true";
+      btn.setAttribute("aria-expanded", expanded ? "false" : "true");
+      details.hidden = expanded;
+    });
+  }
+
+  function updateFilterCountBadge() {
+    let n = 0;
+    if (state.selectedMonth) n++;
+    n += state.selectedTags.size;
+    if (state.showPast) n++;
+    const badge = document.getElementById("filterCountBadge");
+    if (n > 0) {
+      badge.hidden = false;
+      badge.textContent = String(n);
+    } else {
+      badge.hidden = true;
+    }
+  }
+
+  function showToast(msg) {
+    let toast = document.getElementById("toast");
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.id = "toast";
+      toast.className = "toast";
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.classList.add("show");
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => toast.classList.remove("show"), 1600);
+  }
+
+  async function copyName(text, btn) {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        // フォールバック（古いブラウザ用）
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+      }
+      btn.classList.add("copied");
+      const original = btn.dataset.originalLabel;
+      btn.querySelector(".copy-name-btn-text").textContent = "コピーしました";
+      showToast("名称をコピーしました");
+      setTimeout(() => {
+        btn.classList.remove("copied");
+        btn.querySelector(".copy-name-btn-text").textContent = original;
+      }, 1600);
+    } catch (e) {
+      showToast("コピーに失敗しました");
+    }
   }
 
   // ── 描画 ──────────────────────────
@@ -186,6 +252,7 @@
     }
     document.getElementById("emptyState").hidden = filtered.length > 0;
     document.getElementById("resultCount").textContent = String(filtered.length);
+    updateFilterCountBadge();
   }
 
   function renderCard(item, today) {
@@ -266,6 +333,16 @@
       a.rel = "noopener noreferrer";
       a.textContent = "HPを開く";
       card.appendChild(a);
+    } else {
+      // URL が無い研究会は名称コピーボタンを出す（検索エンジンに貼り付けて検索しやすくする）
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "copy-name-btn";
+      btn.dataset.originalLabel = "名称をコピー";
+      btn.innerHTML = '<span class="copy-name-btn-icon" aria-hidden="true">📋</span>' +
+                      '<span class="copy-name-btn-text">名称をコピー</span>';
+      btn.addEventListener("click", () => copyName(item.name, btn));
+      card.appendChild(btn);
     }
     return card;
   }

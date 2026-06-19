@@ -13,20 +13,13 @@
 | `2026年度研修会_統合版.xlsx` | データの原本 |
 | `SPEC.md` | 仕様書 |
 
-## 更新フロー
+## 更新フロー（簡易）
 
-1. Excel (`2026年度研修会_統合版.xlsx`) を更新
-2. `data.json` を再生成
-   ```sh
-   python3 convert.py 2026年度研修会_統合版.xlsx
-   ```
-3. コミット & プッシュ
-   ```sh
-   git add data.json 2026年度研修会_統合版.xlsx
-   git commit -m "データ更新: <内容>"
-   git push
-   ```
-4. Vercel が自動的に再デプロイする
+1. Excel (`2026年度研修会_統合版.xlsx`) を編集
+2. `./update.sh "コミットメッセージ"` を実行（変換 → commit → push を一括）
+3. Vercel が自動デプロイ（30秒〜1分）
+
+詳細・トラブルシューティング・ブラウザだけで完結する手順は **[MAINTENANCE.md](MAINTENANCE.md)** を参照。
 
 ## ローカルプレビュー
 

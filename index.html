@@ -15,26 +15,34 @@
 </header>
 
 <section class="filters">
-  <div class="filter-row">
+  <div class="filter-row search-row">
     <input type="search" id="searchInput" placeholder="名称・テーマで検索…" autocomplete="off" enterkeyhint="search">
+    <button type="button" id="filterToggleBtn" class="filter-toggle"
+            aria-expanded="false" aria-controls="filterDetails">
+      <span class="filter-toggle-label">絞り込み</span>
+      <span class="filter-toggle-badge" id="filterCountBadge" hidden>0</span>
+      <span class="filter-toggle-chevron" aria-hidden="true">▾</span>
+    </button>
   </div>
 
-  <div class="filter-block">
-    <div class="filter-label">月</div>
-    <div class="chip-group" id="monthChips"></div>
-  </div>
+  <div class="filter-details" id="filterDetails" hidden>
+    <div class="filter-block">
+      <div class="filter-label">月</div>
+      <div class="chip-group" id="monthChips"></div>
+    </div>
 
-  <div class="filter-block">
-    <div class="filter-label">タグ（複数選択可）</div>
-    <div class="chip-group" id="tagChips"></div>
-  </div>
+    <div class="filter-block">
+      <div class="filter-label">タグ（複数選択可）</div>
+      <div class="chip-group" id="tagChips"></div>
+    </div>
 
-  <div class="filter-row toggle-row">
-    <label class="toggle">
-      <input type="checkbox" id="showPastToggle">
-      <span>過去の研究会も表示</span>
-    </label>
-    <button type="button" id="resetBtn" class="reset-btn">条件をリセット</button>
+    <div class="filter-row toggle-row">
+      <label class="toggle">
+        <input type="checkbox" id="showPastToggle">
+        <span>過去の研究会も表示</span>
+      </label>
+      <button type="button" id="resetBtn" class="reset-btn">条件をリセット</button>
+    </div>
   </div>
 </section>
 
