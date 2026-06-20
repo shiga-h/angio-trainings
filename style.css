@@ -146,6 +146,11 @@ body {
   gap: 10px;
   animation: filter-slide-down 0.18s ease;
 }
+/* HTMLの hidden 属性は display: none 相当だが、上の display: flex に
+   上書きされて効かなくなるので明示的に潰す。 */
+.filter-details[hidden] {
+  display: none;
+}
 @keyframes filter-slide-down {
   from { opacity: 0; transform: translateY(-4px); }
   to   { opacity: 1; transform: translateY(0); }
