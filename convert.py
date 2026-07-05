@@ -2,11 +2,36 @@ import openpyxl
 import json
 import sys
 
+TARGET_SHEET_NAME = "研究会一覧"
 SRC = sys.argv[1] if len(sys.argv) > 1 else "2026年度研修会_統合版.xlsx"
 OUT = "data.json"
 
+
+def pick_sheet(wb):
+    """解析対象シートを選ぶ。
+
+    優先順位:
+      1. シート名 '研究会一覧' があればそれを使う
+      2. シートが1つしかなければそれを使う（シート名は問わない）
+      3. それ以外は曖昧なのでエラーで停止
+    """
+    names = wb.sheetnames
+    if TARGET_SHEET_NAME in names:
+        print(f"シート '{TARGET_SHEET_NAME}' を使用します")
+        return wb[TARGET_SHEET_NAME]
+    if len(names) == 1:
+        chosen = names[0]
+        print(f"'{TARGET_SHEET_NAME}' なし → 唯一のシート '{chosen}' を使用します")
+        return wb[chosen]
+    raise SystemExit(
+        f"ERROR: シート '{TARGET_SHEET_NAME}' が見つからず、シートが複数あって特定できません。\n"
+        f"  ファイル内のシート: {names}\n"
+        f"  対処: 該当シートを '{TARGET_SHEET_NAME}' にリネームしてから再アップロードしてください。"
+    )
+
+
 wb = openpyxl.load_workbook(SRC, data_only=True)
-ws = wb["研究会一覧"]
+ws = pick_sheet(wb)
 
 rows = []
 for row in ws.iter_rows(min_row=2, values_only=True):
