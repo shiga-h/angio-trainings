@@ -11,6 +11,9 @@ OUT = "data.json"
 
 def parse_row(row):
     """1 行を dict に変換。名前が空の場合は None を返す。"""
+    # 13 列未満のシートに備えて末尾を None でパディング
+    if len(row) < 13:
+        row = tuple(row) + (None,) * (13 - len(row))
     (rid, date_start, date_end, time_, name, theme, loc, fmt,
      fee, points, url, tag1, tag2) = row[:13]
 
@@ -43,9 +46,18 @@ def parse_row(row):
 
 
 def read_sheet(ws):
-    """指定シートからデータ行を読んで dict のリストを返す。"""
+    """指定シートからデータ行を読んで dict のリストを返す。
+
+    ヘッダー行(1行目)の内容もログに出してシート構造を可視化する。
+    """
+    header_preview = []
+    for cell in ws[1]:
+        header_preview.append(str(cell.value) if cell.value is not None else "")
+    print(f"    ヘッダー: {header_preview}")
+
     out = []
-    for row in ws.iter_rows(min_row=2, values_only=True):
+    # max_col=13 で列数を強制。実列数が少なくても None でパディング
+    for row in ws.iter_rows(min_row=2, max_col=13, values_only=True):
         item = parse_row(row)
         if item is not None:
             out.append(item)
