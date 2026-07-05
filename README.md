@@ -13,13 +13,21 @@
 | `2026年度研修会_統合版.xlsx` | データの原本 |
 | `SPEC.md` | 仕様書 |
 
-## 更新フロー（簡易）
+## 更新フロー
+
+### ブラウザだけで完結（推奨）
+
+1. GitHub で `2026年度研修会_統合版.xlsx` を差し替え（Add file → Upload files）
+2. コミット → GitHub Actions が `data.json` を自動生成
+3. Vercel が自動デプロイ（合計1〜2分）
+
+### ローカルで作業する場合（旧・任意）
 
 1. Excel (`2026年度研修会_統合版.xlsx`) を編集
 2. `./update.sh "コミットメッセージ"` を実行（変換 → commit → push を一括）
-3. Vercel が自動デプロイ（30秒〜1分）
+3. Vercel が自動デプロイ
 
-詳細・トラブルシューティング・ブラウザだけで完結する手順は **[MAINTENANCE.md](MAINTENANCE.md)** を参照。
+詳細・トラブルシューティングは **[MAINTENANCE.md](MAINTENANCE.md)** を参照。
 
 ## ローカルプレビュー
 

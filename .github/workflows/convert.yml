@@ -1,0 +1,45 @@
+name: Excel → data.json 自動変換
+
+# .xlsx が main に push されたら convert.py を走らせて data.json を自動再生成する。
+# 手動実行も可能 (Actions タブから Run workflow)。
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.xlsx'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install openpyxl
+
+      - name: Convert Excel to JSON
+        run: python3 convert.py
+
+      - name: Commit data.json (差分がある場合のみ)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data.json
+          if git diff --staged --quiet; then
+            echo "data.json に変更なし。commit をスキップ。"
+          else
+            git commit -m "auto: regenerate data.json from Excel"
+            git push
+            echo "data.json を更新して push しました。Vercel が自動デプロイします。"
+          fi
