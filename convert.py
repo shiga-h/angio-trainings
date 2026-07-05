@@ -64,6 +64,7 @@ def parse_date_field(v, base_year: int) -> tuple[str, str, str]:
     - 文字列は正規表現で時刻と日付を切り出す
     - 日付が2つ見つかれば1つめ=start, 2つめ=end
     - 年が省略されていれば base_year を採用
+    - 日付が全く抽出できなかった場合は生文字列を time に残す（表示上見えるように）
     """
     if v is None:
         return "", "", ""
@@ -72,6 +73,7 @@ def parse_date_field(v, base_year: int) -> tuple[str, str, str]:
     s = str(v).strip()
     if not s:
         return "", "", ""
+    original = s
 
     # 1. 時刻抽出
     time_match = _TIME_RE.search(s)
@@ -93,7 +95,21 @@ def parse_date_field(v, base_year: int) -> tuple[str, str, str]:
     date_start = to_date(matches[0]) if matches else ""
     date_end   = to_date(matches[1]) if len(matches) >= 2 else ""
 
+    # フォールバック: 日付が全く取れなかったら、生文字列を time に置いておく
+    if not date_start:
+        time_str = original
+
     return date_start, date_end, time_str
+
+
+def clean_url(v) -> str:
+    """URL 値を検証。http:// または https:// で始まらないものは空扱い。"""
+    if v is None:
+        return ""
+    s = str(v).strip()
+    if s.startswith(("http://", "https://")):
+        return s
+    return ""
 
 
 # ============================================================
@@ -128,7 +144,7 @@ def parse_integrated_row(row):
         "format": fmt or "未定",
         "fee": fee or "",
         "points": points or "",
-        "url": url or "",
+        "url": clean_url(url),
         "tags": tags,
     }
 
@@ -152,7 +168,7 @@ def parse_monthly_row(row, base_year: int):
         "format": fmt or "未定",
         "fee": fee or "",
         "points": points or "",
-        "url": url or "",
+        "url": clean_url(url),
         "tags": [],
     }
 
